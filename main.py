@@ -43,8 +43,8 @@ bot = Bot(
 )
 
 app = FastAPI()
-app.add_event_handler("startup", bot.startup)
-app.add_event_handler("shutdown", bot.shutdown)
+# app.add_event_handler("startup", bot.startup)
+# app.add_event_handler("shutdown", bot.shutdown)
 
 
 # На этот эндпоинт приходят команды BotX
