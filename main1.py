@@ -18,4 +18,5 @@ async def test(request: Request):
 
 
 if __name__ == "__main__":
+    logger.info('Start')
     uvicorn.run(app, host="0.0.0.0", port=9500)
