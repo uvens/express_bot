@@ -89,6 +89,7 @@ async def status_handler(request: Request) -> JSONResponse:
 @app.get('/')
 async def check():
     logger.info('Check')
+    logger.info(f'{bot.state}')
     return 'Alive'
 
 
