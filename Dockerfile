@@ -2,7 +2,6 @@
 FROM python:3.10-slim
 
 # Устанавливаем рабочую директорию внутри контейнера
-WORKDIR /app
 
 # Копируем файл зависимостей (requirements.txt) и устанавливаем их
 COPY requirements.txt .
