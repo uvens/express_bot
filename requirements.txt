@@ -3,3 +3,4 @@ loguru==0.6.0
 pybotx==0.73.0
 uvicorn==0.32.0
 python-dotenv==1.0.1
+gunicorn==20.1.0
