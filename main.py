@@ -6,6 +6,7 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
+from loguru import logger
 
 # В этом и последующих примерах импорт из `pybotx` будет производиться
 # через звёздочку для краткости. Однако, это не является хорошей практикой.
@@ -74,11 +75,21 @@ async def sync_smartapp_event_handler(request: Request) -> JSONResponse:
 # доступность бота и его список команд.
 @app.get("/status")
 async def status_handler(request: Request) -> JSONResponse:
-    status = await bot.raw_get_status(
-        dict(request.query_params),
-        request_headers=request.headers,
-    )
+    logger.info('Connect status')
+    try:
+        status = await bot.raw_get_status(
+            dict(request.query_params),
+            request_headers=request.headers,
+        )
+    except Exception as ex:
+        logger.error(f'Error : {ex}')
     return JSONResponse(status)
+
+
+@app.get('/check')
+async def check():
+    logger.info('Check')
+    return 'Alive'
 
 
 # На этот эндпоинт приходят коллбэки с результатами
