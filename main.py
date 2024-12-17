@@ -77,6 +77,7 @@ async def sync_smartapp_event_handler(request: Request) -> JSONResponse:
 async def status_handler(request: Request) -> JSONResponse:
     logger.info('Connect status')
     try:
+        logger.info(request.headers)
         status = await bot.raw_get_status(
             dict(request.query_params),
             request_headers=request.headers,
