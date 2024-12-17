@@ -86,7 +86,7 @@ async def status_handler(request: Request) -> JSONResponse:
     return JSONResponse(status)
 
 
-@app.get('/check')
+@app.get('/')
 async def check():
     logger.info('Check')
     return 'Alive'
