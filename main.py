@@ -3,10 +3,11 @@ from http import HTTPStatus
 from uuid import UUID
 
 import uvicorn
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from loguru import logger
+from dep import get_bot
 
 # В этом и последующих примерах импорт из `pybotx` будет производиться
 # через звёздочку для краткости. Однако, это не является хорошей практикой.
@@ -76,15 +77,28 @@ async def sync_smartapp_event_handler(request: Request) -> JSONResponse:
 @app.get("/status")
 async def status_handler(request: Request) -> JSONResponse:
     logger.info('Connect status')
+    token = os.environ.get('TOKEN')
+    logger.info(f'Bot token: {token}')
+
     try:
+        # request['headers'] = {**request['headers'], "authorization": token}
+        head = request.headers.mutablecopy()
+        head['authorization'] = token
         logger.info(request.headers)
         status = await bot.raw_get_status(
             dict(request.query_params),
-            request_headers=request.headers,
+            request_headers=head,
         )
     except Exception as ex:
         logger.error(f'Error : {ex}')
     return JSONResponse(status)
+
+
+@app.get("/token")
+async def get_token() -> str:
+    token = await bot.get_token(bot_id=UUID(os.environ.get('BOT_ID')))
+    os.environ['TOKEN'] = token
+    return token
 
 
 @app.get('/')
@@ -109,4 +123,4 @@ async def callback_handler(request: Request) -> JSONResponse:
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    uvicorn.run(app, host="0.0.0.0", port=8082)
