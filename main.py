@@ -7,7 +7,7 @@ from fastapi import FastAPI, Request, Depends
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 from loguru import logger
-from dep import get_bot
+# from dep import get_bot
 
 # В этом и последующих примерах импорт из `pybotx` будет производиться
 # через звёздочку для краткости. Однако, это не является хорошей практикой.
