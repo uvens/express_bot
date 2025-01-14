@@ -76,21 +76,10 @@ async def sync_smartapp_event_handler(request: Request) -> JSONResponse:
 # доступность бота и его список команд.
 @app.get("/status")
 async def status_handler(request: Request) -> JSONResponse:
-    logger.info('Connect status')
-    token = os.environ.get('TOKEN')
-    logger.info(f'Bot token: {token}')
-
-    try:
-        # request['headers'] = {**request['headers'], "authorization": token}
-        head = request.headers.mutablecopy()
-        head['authorization'] = token
-        logger.info(request.headers)
-        status = await bot.raw_get_status(
-            dict(request.query_params),
-            request_headers=head,
-        )
-    except Exception as ex:
-        logger.error(f'Error : {ex}')
+    status = await bot.raw_get_status(
+        dict(request.query_params),
+        request_headers=request.headers,
+    )
     return JSONResponse(status)
 
 
