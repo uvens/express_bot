@@ -76,6 +76,8 @@ async def sync_smartapp_event_handler(request: Request) -> JSONResponse:
 # доступность бота и его список команд.
 @app.get("/status")
 async def status_handler(request: Request) -> JSONResponse:
+    logger.info('Status started')
+    logger.info(f'{bot.state}')
     status = await bot.raw_get_status(
         dict(request.query_params),
         request_headers=request.headers,
